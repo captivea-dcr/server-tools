@@ -91,7 +91,7 @@ class TestDatabaseCleanup(TransactionCase):
         )
         # and a cronjob for it
         cronjob = self.env["ir.cron"].create(
-            {"name": "testcronjob", "model_id": self.models.id}
+            {"name": "testcronjob", "model_id": self.model.id}
         )
         self.env.cr.execute(
             "insert into ir_attachment (name, res_model, res_id, type) values "
@@ -146,8 +146,8 @@ class TestDatabaseCleanup(TransactionCase):
             self.env.cr.rollback()
             if self.module:
                 cr2.execute(
-                    "DELETE FROM ir_module_module WHERE id=%s", (self.module.id)
+                    "DELETE FROM ir_module_module WHERE id=%s", (self.module.id,)
                 )
             if self.model:
-                cr2.execute("DELETE FROM ir_model WHERE id=%s", (self.model.id))
+                cr2.execute("DELETE FROM ir_model WHERE id=%s", (self.model.id,))
             cr2.commit()
